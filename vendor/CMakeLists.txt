@@ -1,18 +1,40 @@
+# --------------------------------------------------------------
+#  gl_luagl, gl_luaglu
+#  
+#  expects:
+#    MODULE_NAME defined in the CMakeLists for the module
+#
+#  provides:
+#    gl/luagl.so
+#    gl/luaglu.so
+# --------------------------------------------------------------
 
-# ----------------------------------------------------------------------------------
-#  [lubyk]
-# ----------------------------------------------------------------------------------
-
-#include_directories(CMAKE_CURRENT_DIR)
-
-#set(SUB_MODULE_NAME "luagl")
 find_package(OpenGL REQUIRED)
 
-build_sub_module("luagl"  LuaGL.c luagl_util.c)
-build_sub_module("luaglu" luaglu.c)
+add_library(luagl MODULE LuaGL.c luagl_util.c)
+set_target_properties(luagl
+  PROPERTIES
+  LINK_FLAGS ${PLAT_OBJ_FLAGS}
+  PREFIX ""
+  SUFFIX ".so"
+)  
+target_link_libraries(luagl ${OPENGL_LIBRARIES})
 
-target_link_libraries("${MODULE_NAME}_luagl" ${OPENGL_LIBRARIES})
+add_library(luaglu MODULE luaglu.c)
+set_target_properties(luaglu
+  PROPERTIES
+  LINK_FLAGS ${PLAT_OBJ_FLAGS}
+  PREFIX ""
+  SUFFIX ".so"
+)  
+target_link_libraries(luaglu ${OPENGL_LIBRARIES})
 
-# ----------------------------------------------------------------------------------
-#  [/lubyk]
-# ----------------------------------------------------------------------------------
+add_dependencies(${MODULE_NAME} luagl luaglu)
+
+# --------------------------------------------------------------
+#  install                                     
+# --------------------------------------------------------------
+install(TARGETS luagl luaglu
+  DESTINATION lib/lubyk/${MODULE_NAME}
+)
+
