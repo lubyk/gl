@@ -35,6 +35,6 @@ add_dependencies(${MODULE_NAME} luagl luaglu)
 #  install                                     
 # --------------------------------------------------------------
 install(TARGETS luagl luaglu
-  DESTINATION lib/lubyk/${MODULE_NAME}
+  DESTINATION ${LUBYK_LIB}/lib/${MODULE_NAME}
 )
 
