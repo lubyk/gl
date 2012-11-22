@@ -14,7 +14,6 @@ require 'lubyk'
 
 local base = lk.scriptDir()
 
-dub.Inspector.DOXYGEN_CMD = { macosx = '/usr/local/bin/doxygen' }
 local ins = dub.Inspector {
   INPUT    = base .. '/bind',
 }
